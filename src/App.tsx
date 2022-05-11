@@ -1,6 +1,14 @@
+import {Container} from 'react-bootstrap';
 const App = ():JSX.Element => {
   return (
-    <div>App</div>
+    <>
+      <header className="py-5">
+        <h1>Buscador de Bebidas</h1>
+      </header>
+      <Container className='mt-5'>
+        
+      </Container>
+    </>
   )
 }
 
