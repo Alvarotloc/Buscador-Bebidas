@@ -1,6 +1,6 @@
 import { Modal, Image } from "react-bootstrap";
 import useBebidas from "../hooks/useBebidas";
-const ModalBebida = (): JSX.Element | false => {
+const ModalBebida = (): JSX.Element => {
   const { isModalActive, handleModalClick, receta, loadingReceta } =
     useBebidas();
 
@@ -19,7 +19,7 @@ const ModalBebida = (): JSX.Element | false => {
     return ingredientes;
   };
   return (
-    !loadingReceta && (
+    !loadingReceta ? (
       <Modal show={isModalActive} onHide={handleModalClick}>
         <Image
           src={receta.strDrinkThumb}
@@ -37,7 +37,7 @@ const ModalBebida = (): JSX.Element | false => {
           </div>
         </Modal.Body>
       </Modal>
-    )
+    ) : <></>
   );
 };
 
