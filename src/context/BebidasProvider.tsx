@@ -41,7 +41,9 @@ const BebidasProvider = ({children}:IChildrenContext) => {
         } catch (error) {
             throw error;
         }finally {
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
         }
     }
 
