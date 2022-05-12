@@ -2,6 +2,7 @@ import { Container } from "react-bootstrap";
 import Formulario from "./components/Formulario";
 import { CategoriasProvider } from "./context/CategoriaProvider";
 import { BebidasProvider } from "./context/BebidasProvider";
+import ListadoBebidas from './components/ListadoBebidas';
 const App = (): JSX.Element => {
   return (
     <CategoriasProvider>
@@ -11,6 +12,7 @@ const App = (): JSX.Element => {
         </header>
         <Container className="mt-5">
           <Formulario />
+          <ListadoBebidas />
         </Container>
       </BebidasProvider>
     </CategoriasProvider>

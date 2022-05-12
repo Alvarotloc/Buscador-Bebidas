@@ -1,15 +1,11 @@
 import { Button, Form, Row, Col,Alert } from "react-bootstrap";
 import useCategorias from "../hooks/useCategorias";
-import type { Drink } from "../types/index";
+import type { CategoryDrink,IBusqueda } from "../types/index";
 import { FormEvent, useState } from "react";
+import useBebidas from '../hooks/useBebidas';
 
 interface ICategorias {
-  categorias: Drink[];
-}
-
-interface IBusqueda {
-  nombre: string;
-  categoria: string;
+  categorias: CategoryDrink[];
 }
 
 const Formulario = (): JSX.Element => {
@@ -18,7 +14,10 @@ const Formulario = (): JSX.Element => {
     categoria: "",
   });
   const [alerta, setAlerta] = useState<string>('')
+
   const { categorias }: ICategorias = useCategorias();
+
+  const {consultarBebida} = useBebidas();
 
   const handleSubmit = (e:FormEvent) => {
       e.preventDefault();
@@ -27,6 +26,7 @@ const Formulario = (): JSX.Element => {
         return setAlerta('Todos los campos son obligatorios')
       }
       setAlerta('');
+      consultarBebida(busqueda);
   }
 
 
