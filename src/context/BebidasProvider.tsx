@@ -38,11 +38,10 @@ const BebidasProvider = ({children}:IChildrenContext) => {
 
             const {data}:{data : IBebidas} = await axios(url);
             setBebidas(data.drinks);
-            setTimeout(() => {
-                setLoading(false);
-            }, 1500);
         } catch (error) {
             throw error;
+        }finally {
+            setLoading(false);
         }
     }
 
