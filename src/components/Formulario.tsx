@@ -1,8 +1,8 @@
-import { Button, Form, Row, Col,Alert } from "react-bootstrap";
+import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 import useCategorias from "../hooks/useCategorias";
-import type { CategoryDrink,IBusqueda } from "../types/index";
+import type { CategoryDrink, IBusqueda } from "../types/index";
 import { FormEvent, useState } from "react";
-import useBebidas from '../hooks/useBebidas';
+import useBebidas from "../hooks/useBebidas";
 
 interface ICategorias {
   categorias: CategoryDrink[];
@@ -13,26 +13,30 @@ const Formulario = (): JSX.Element => {
     nombre: "",
     categoria: "",
   });
-  const [alerta, setAlerta] = useState<string>('')
+  const [alerta, setAlerta] = useState<string>("");
 
   const { categorias }: ICategorias = useCategorias();
 
-  const {consultarBebida} = useBebidas();
+  const { consultarBebida,setIsFavoritePage } = useBebidas();
 
-  const handleSubmit = (e:FormEvent) => {
-      e.preventDefault();
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
 
-      if(Object.values(busqueda).includes('')){
-        return setAlerta('Todos los campos son obligatorios')
-      }
-      setAlerta('');
-      consultarBebida(busqueda);
-  }
-
+    if (Object.values(busqueda).includes("")) {
+      return setAlerta("Todos los campos son obligatorios");
+    }
+    setAlerta("");
+    consultarBebida(busqueda);
+    setIsFavoritePage(false);
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
-        {alerta && <Alert variant="danger" className="text-center text-uppercase ">{alerta}</Alert>}
+      {alerta && (
+        <Alert variant="danger" className="text-center text-uppercase ">
+          {alerta}
+        </Alert>
+      )}
       <Row>
         <Col md={6}>
           <Form.Group className="mb-3">
@@ -77,9 +81,31 @@ const Formulario = (): JSX.Element => {
           </Form.Group>
         </Col>
       </Row>
-      <Row className="justify-content-end">
+      <Row className="justify-content-between">
         <Col md={3}>
-          <Button variant="danger" className="text-uppercase w-100" type="submit">
+          <Button variant="danger" className="text-uppercase w-100 d-flex align-items-center gap-2 justify-content-center" onClick={() => setIsFavoritePage(true)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="#ffffff"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            </svg>
+            Bebidas Favoritas
+          </Button>
+        </Col>
+        <Col md={3}>
+          <Button
+            className="text-uppercase w-100"
+            type="submit"
+          >
             Buscar Bebidas
           </Button>
         </Col>

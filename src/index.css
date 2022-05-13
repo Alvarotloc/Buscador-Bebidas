@@ -7,3 +7,37 @@ header h1 {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
 }
+.titulo-bebida{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.contenedor-corazon{
+  cursor: pointer;
+  padding: .4rem;
+  border-radius: 0 0 0 1.8rem;
+}
+.corazon{
+  width: 2rem;
+  height: 2rem;
+  fill: none;
+  stroke: white;
+}
+.activo{
+  animation: favoritos .9s forwards;
+}
+@keyframes favoritos {
+  0%{
+    fill:none;
+  }
+  50%{
+    transform: scale(1.3);
+    fill: #EC3A49;
+    stroke: #EC3A49;
+  }
+  100%{
+    transform: scale(1);
+    fill: #EC3A49;
+    stroke: #EC3A49;
+  }
+}
