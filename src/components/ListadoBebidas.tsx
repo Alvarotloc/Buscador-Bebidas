@@ -1,21 +1,28 @@
-import useBebidas from '../hooks/useBebidas';
-import {Row} from 'react-bootstrap';
-import type { Drink } from '../types/index';
-import Bebida from './Bebida';
+import useBebidas from "../hooks/useBebidas";
+import { Row } from "react-bootstrap";
+import type { Drink } from "../types/index";
+import Bebida from "./Bebida";
 
-    interface IBebidas {
-        bebidas : Drink[]
-    }
-
-const ListadoBebidas = ():JSX.Element => {
-    const {bebidas}:IBebidas = useBebidas();
-  return (
-    <Row className='mt-5'>
-        {bebidas.map(bebida => (
-            <Bebida key={bebida.idDrink} bebida={bebida}/>
-        ))}
-    </Row>
-  )
+interface IBebidasProvider {
+  bebidas: Drink[];
+  isFavoritePage: boolean;
 }
 
-export default ListadoBebidas
+const ListadoBebidas = (): JSX.Element => {
+  const { bebidas, isFavoritePage }: IBebidasProvider = useBebidas();
+  return (
+    <Row className="mt-5">
+      {bebidas.length > 0 ? (
+        bebidas.map((bebida: Drink) => (
+          <Bebida key={bebida.idDrink} bebida={bebida} />
+        ))
+      ) : isFavoritePage ? (
+        <h1 className="text-center text-uppercase">No hay bebidas</h1>
+      ) : (
+        ""
+      )}
+    </Row>
+  );
+};
+
+export default ListadoBebidas;

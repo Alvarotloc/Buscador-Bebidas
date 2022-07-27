@@ -20,19 +20,29 @@ const BebidasProvider = ({ children }: IChildrenContext) => {
   const [isFavoritePage, setIsFavoritePage] = useState(false);
 
   useEffect(() => {
-      const cocktailsFavoritos = JSON.parse(localStorage.getItem('cocktails') || '[]') ?? [];
+    const cocktailsFavoritos =
+      JSON.parse(localStorage.getItem("cocktails") || "[]") ?? [];
 
-      if(cocktailsFavoritos.length === 0) return;
+    if (cocktailsFavoritos.length === 0) return;
 
-      setCocktailsFavorites(cocktailsFavoritos);
-  },[])
+    setCocktailsFavorites(cocktailsFavoritos);
+  }, []);
 
   useEffect(() => {
-      if(isFavoritePage){
-          setBebidas(cocktailsFavorites)
-      }
-  },[isFavoritePage])
+    if (cocktailsFavorites.length === 0) {
+      localStorage.setItem("cocktails", JSON.stringify([]));
+    }
+    localStorage.setItem("cocktails", JSON.stringify(cocktailsFavorites));
+    if (isFavoritePage) {
+      setBebidas(cocktailsFavorites);
+    }
+  }, [cocktailsFavorites]);
 
+  useEffect(() => {
+    if (isFavoritePage) {
+      setBebidas(cocktailsFavorites);
+    }
+  }, [isFavoritePage]);
 
   useEffect(() => {
     const obtenerReceta = async () => {
@@ -52,24 +62,23 @@ const BebidasProvider = ({ children }: IChildrenContext) => {
     obtenerReceta();
   }, [bebidaId]);
 
-  useEffect(() => {
-      if(cocktailsFavorites.length === 0){
-        localStorage.setItem('cocktails',JSON.stringify([]))
-      };
-      localStorage.setItem('cocktails',JSON.stringify(cocktailsFavorites));
-      if(isFavoritePage){
-        setBebidas(cocktailsFavorites)
-    }
-  },[cocktailsFavorites])
-
   const consultarBebida = async (datos: IBusqueda) => {
-    const { nombre, categoria } = datos;
+    const { ingrediente, categoria } = datos;
     try {
       setLoading(true);
-      const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${nombre}&c=${categoria}`;
+      const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingrediente}`;
 
       const { data }: { data: IBebidas } = await axios(url);
-      setBebidas(data.drinks);
+      const bebidasFiltradas:Drink[] = [];
+      if(data){
+        data.drinks.forEach(async (bebida: Drink) => {
+          const {data} = await axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${bebida.idDrink}`);
+          if(data.drinks[0].strCategory === categoria){
+            bebidasFiltradas.push(bebida);
+          }
+        });
+      }
+      setBebidas(bebidasFiltradas);
     } catch (error) {
       throw error;
     } finally {
@@ -98,7 +107,8 @@ const BebidasProvider = ({ children }: IChildrenContext) => {
         receta,
         setCocktailsFavorites,
         cocktailsFavorites,
-        setIsFavoritePage
+        isFavoritePage,
+        setIsFavoritePage,
       }}
     >
       {children}

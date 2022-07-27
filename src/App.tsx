@@ -4,6 +4,7 @@ import { CategoriasProvider } from "./context/CategoriaProvider";
 import { BebidasProvider } from "./context/BebidasProvider";
 import ListadoBebidas from "./components/ListadoBebidas";
 import ModalBebida from "./components/ModalBebida";
+
 const App = (): JSX.Element => {
   return (
     <CategoriasProvider>

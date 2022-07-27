@@ -10,7 +10,7 @@ interface ICategorias {
 
 const Formulario = (): JSX.Element => {
   const [busqueda, setBusqueda] = useState<IBusqueda>({
-    nombre: "",
+    ingrediente: "",
     categoria: "",
   });
   const [alerta, setAlerta] = useState<string>("");
@@ -18,6 +18,13 @@ const Formulario = (): JSX.Element => {
   const { categorias }: ICategorias = useCategorias();
 
   const { consultarBebida,setIsFavoritePage } = useBebidas();
+
+  const {categoria,ingrediente} = busqueda;
+
+  const handleGoFavorites = () => {
+    setIsFavoritePage(true);
+    setBusqueda({ingrediente : '', categoria: ''});
+  }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -40,13 +47,13 @@ const Formulario = (): JSX.Element => {
       <Row>
         <Col md={6}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="nombre">Nombre Bebida</Form.Label>
+            <Form.Label htmlFor="ingrediente">Ingrediente Bebida</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ej: Tequila, Vodka, etc"
-              name="nombre"
-              id="nombre"
-              value={busqueda.nombre}
+              name="ingrediente"
+              id="ingrediente"
+              value={ingrediente}
               onChange={(e) =>
                 setBusqueda({
                   ...busqueda,
@@ -63,7 +70,7 @@ const Formulario = (): JSX.Element => {
             <Form.Select
               id="categoria"
               name="categoria"
-              value={busqueda.categoria}
+              value={categoria}
               onChange={(e) =>
                 setBusqueda({
                   ...busqueda,
@@ -83,7 +90,7 @@ const Formulario = (): JSX.Element => {
       </Row>
       <Row className="justify-content-between">
         <Col md={3}>
-          <Button variant="danger" className="text-uppercase w-100 d-flex align-items-center gap-2 justify-content-center" onClick={() => setIsFavoritePage(true)}>
+          <Button variant="danger" className="text-uppercase w-100 d-flex align-items-center gap-2 justify-content-center" onClick={handleGoFavorites}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
